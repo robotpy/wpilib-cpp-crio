@@ -145,7 +145,7 @@ void PIDController::Calculate()
 	if (enabled)
 	{
 		float input = pidInput->PIDGet();
-		float result;
+		float setpoint, result, error;
 		PIDOutput *pidOutput;
 
 		{
@@ -190,9 +190,12 @@ void PIDController::Calculate()
 
 			pidOutput = m_pidOutput;
 			result = m_result;
+			setpoint = m_setpoint;
+			error = m_error;
 		}
 
 		pidOutput->PIDWrite(result);
+		CalculateCallback(input, setpoint, result, error);
 	}
 }
 
@@ -559,6 +562,21 @@ void PIDController::Reset()
 		m_result = 0;
 	}
 	END_REGION;
+}
+
+/**
+ * Callback called each time the PID controller runs.  The default
+ * implementation does nothing, but classes derived from PIDController
+ * can override this to get synchronized notification of what the
+ * controller is doing (e.g. for logging or timing purposes).
+ * @param input the input value read from PIDSource
+ * @param setpoint the current setpoint
+ * @param result the value written to PIDOutput
+ * @param error the current error
+ */
+void PIDController::CalculateCallback(float input, float setpoint,
+					float result, float error)
+{
 }
 
 std::string PIDController::GetSmartDashboardType(){

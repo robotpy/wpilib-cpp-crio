@@ -60,6 +60,9 @@ public:
 	
 	virtual void Reset();
 	
+	virtual void CalculateCallback(float input, float setpoint,
+					float result, float error);
+	
 	virtual void InitTable(ITable* table);
 
 private:
