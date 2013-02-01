@@ -371,7 +371,13 @@ std::string Preferences::Get(const char *key)
 		wpi_setWPIErrorWithContext(NullParameter, "key");
 		return std::string("");
 	}
-	return m_values[std::string(key)];
+	StringMap::iterator ret = m_values.find(key);
+	if (ret != m_values.end())
+		return ret->second;
+
+	m_keys.push_back(key);
+	m_values.insert(StringMap::value_type(key, ""));
+	return "";
 }
 
 /**
