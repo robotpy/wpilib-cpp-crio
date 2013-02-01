@@ -506,7 +506,7 @@ void Preferences::ReadTaskRun()
 				{
 					m_keys.push_back(name);
 					m_values.insert(std::pair<std::string, std::string>(name, value));
-					//NetworkTable::GetTable(kTableName)->PutString(name, value);
+					NetworkTable::GetTable(kTableName)->PutString(name, value);
 
 					if (!comment.empty())
 					{
