@@ -165,6 +165,21 @@ float Gyro::GetAngle( void )
 	return (float)scaledValue;
 }
 
+/**
+ * Return the current gyro rate in degrees/sec that the robot is currently moving.
+ * 
+ * The rate is based on the current analog value corrected by the oversampling rate, the
+ * gyro type and the A/D calibration values.
+ * 
+ * @return the current gyro rate of the robot in degrees/sec.
+ */
+float Gyro::GetRate( void )
+{
+	double scaledValue = ((double)m_analog->GetAverageValue() - m_offset) * 1e-9 * (double)m_analog->GetLSBWeight() /
+		((1 << m_analog->GetOversampleBits()) * m_voltsPerDegreePerSecond);
+
+	return (float)scaledValue;
+}
 
 /**
  * Set the gyro type based on the sensitivity.
