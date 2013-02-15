@@ -63,7 +63,7 @@ void ClientNetworkTableEntryStore::sendUnknownEntries(NetworkTableConnection& co
 		for(itr = namedEntries.begin(); itr != namedEntries.end(); itr++)
 		{
 			NetworkTableEntry* entry = (*itr).second;
-			if(entry->GetId()==NetworkTableEntry::UNKNOWN_ID)
+			if(entry && entry->GetId()==NetworkTableEntry::UNKNOWN_ID)
 				connection.sendEntryAssignment(*entry);
 		}
 		connection.flush();

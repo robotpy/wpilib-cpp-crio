@@ -49,7 +49,8 @@ void ServerNetworkTableEntryStore::sendServerHello(NetworkTableConnection& conne
 	for (itr = namedEntries.begin(); itr != namedEntries.end(); itr++)
 	{
 		NetworkTableEntry* entry = itr->second;
-		connection.sendEntryAssignment(*entry);
+        if (entry)
+            connection.sendEntryAssignment(*entry);
 	}
 	connection.sendServerHelloComplete();
 	connection.flush();
