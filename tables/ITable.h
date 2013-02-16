@@ -10,12 +10,15 @@
 
 
 class ITable;
-union EntryValue{
+// SIP doesn't directly support unions, no harm making it a struct instead
+struct EntryValue {
+union {
 	void* ptr;
 	bool b;
 	double f;
 };
-typedef union EntryValue EntryValue;
+};
+typedef struct EntryValue EntryValue;
 
 
 #include <string>
