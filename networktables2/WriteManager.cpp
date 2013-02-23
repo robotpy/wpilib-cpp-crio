@@ -98,9 +98,9 @@ void WriteManager::run() {
 		{
 			Synchronized sync(entryStore.LOCK);
 			entry->MakeClean();
+			wrote = true;
+			receiver.offerOutgoingAssignment(entry);
 		}
-		wrote = true;
-		receiver.offerOutgoingAssignment(entry);
 	}
 	
 	while(!((std::queue<NetworkTableEntry*>*)outgoingUpdateQueue)->empty()){
@@ -109,9 +109,9 @@ void WriteManager::run() {
 		{ 
 			Synchronized sync(entryStore.LOCK);
 			entry->MakeClean();
+			wrote = true;
+			receiver.offerOutgoingUpdate(entry);
 		}
-		wrote = true;
-		receiver.offerOutgoingUpdate(entry);
 	}
 	
 	
