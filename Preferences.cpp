@@ -44,9 +44,6 @@ Preferences::Preferences() :
 	m_readTask.Start((UINT32)this);
 	semTake(m_fileOpStarted, WAIT_FOREVER);
 
-	NetworkTable::GetTable(kTableName)->PutBoolean(kSaveField, false);
-	NetworkTable::GetTable(kTableName)->AddTableListener(this);
-
 	nUsageReporting::report(nUsageReporting::kResourceType_Preferences, 0);
 }
 
@@ -429,13 +426,13 @@ void Preferences::ReadTaskRun()
 	if (file != NULL)
 	{
 		std::string buffer;
-		while (true)
+		while (!feof(file))
 		{
 			char value;
 			do
 			{
 				value = fgetc(file);
-			} while (value == ' ' || value == '\t');
+			} while (!feof(file) && (value == ' ' || value == '\t'));
 
 			if (value == '\n' || value == ';')
 			{
@@ -467,17 +464,15 @@ void Preferences::ReadTaskRun()
 					do
 					{
 						value = fgetc(file);
-					} while (value == ' ' || value == '\t');
+					} while (!feof(file) && (value == ' ' || value == '\t'));
 				}
 				std::string name = buffer;
 				buffer.clear();
 
-				bool shouldBreak = false;
-
 				do
 				{
 					value = fgetc(file);
-				} while (value == ' ' || value == '\t');
+				} while (!feof(file) && (value == ' ' || value == '\t'));
 
 				if (value == '"')
 				{
@@ -495,10 +490,8 @@ void Preferences::ReadTaskRun()
 						do
 						{
 							value = fgetc(file);
-						} while (value == ' ' || value == '\t');
+						} while (!feof(file) && (value == ' ' || value == '\t'));
 					}
-					if (feof(file))
-						shouldBreak = true;
 				}
 
 				std::string value = buffer;
@@ -515,9 +508,6 @@ void Preferences::ReadTaskRun()
 						comment.clear();
 					}
 				}
-
-				if (shouldBreak)
-					break;
 			}
 		}
 	}
@@ -531,6 +521,9 @@ void Preferences::ReadTaskRun()
 
 	if (!comment.empty())
 		m_endComment = comment;
+
+	NetworkTable::GetTable(kTableName)->PutBoolean(kSaveField, false);
+	NetworkTable::GetTable(kTableName)->AddTableListener(this);
 }
 
 /**
