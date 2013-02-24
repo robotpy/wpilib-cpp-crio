@@ -16,6 +16,7 @@ StringCache::~StringCache(){
 }
 
 std::string& StringCache::Get(const std::string& input){
+	Synchronized sync(LOCK);
 	map<std::string, std::string>::iterator itr = cache.find(input);
 	if(itr != cache.end()){
 	   return itr->second;

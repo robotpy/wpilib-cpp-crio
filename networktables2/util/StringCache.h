@@ -3,6 +3,7 @@
 
 #include <map>
 #include <string>
+#include "Synchronized.h"
 
 using namespace std;
 
@@ -15,6 +16,7 @@ using namespace std;
 class StringCache {
 private:
 	map<std::string, std::string> cache;
+	ReentrantSemaphore LOCK;
 
 	
 	/**
