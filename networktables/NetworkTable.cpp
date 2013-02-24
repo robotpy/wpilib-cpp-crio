@@ -34,29 +34,30 @@ ReentrantSemaphore NetworkTable::STATIC_LOCK;
 
 
 void NetworkTable::CheckInit(){
-	{ 
-		Synchronized sync(STATIC_LOCK);
-		if(staticProvider!=NULL)
-			throw new IllegalStateException("Network tables has already been initialized");
-	}
+	if(staticProvider!=NULL)
+		throw new IllegalStateException("Network tables has already been initialized");
 }
 
 void NetworkTable::Initialize() {
+	Synchronized sync(STATIC_LOCK);
 	CheckInit();
 	staticProvider = new NetworkTableProvider(*(mode->CreateNode(ipAddress.c_str(), port, threadManager)));
 }
 
 void NetworkTable::SetTableProvider(NetworkTableProvider* provider){
+	Synchronized sync(STATIC_LOCK);
 	CheckInit();
 	staticProvider = provider;
 }
 
 void NetworkTable::SetClientMode(){
+	Synchronized sync(STATIC_LOCK);
 	CheckInit();
 	mode = &NetworkTableMode::Client;
 }
 
 void NetworkTable::SetServerMode(){
+	Synchronized sync(STATIC_LOCK);
 	CheckInit();
 	mode = &NetworkTableMode::Server;
 }
@@ -68,11 +69,13 @@ void NetworkTable::SetTeam(int team){
 }
 
 void NetworkTable::SetIPAddress(const char* address){
+	Synchronized sync(STATIC_LOCK);
 	CheckInit();
 	ipAddress = address;
 }
 
 NetworkTable* NetworkTable::GetTable(std::string key) {
+	Synchronized sync(STATIC_LOCK);
 	if(staticProvider==NULL){
 		Initialize();
 	}
@@ -99,6 +102,7 @@ bool NetworkTable::IsServer() {
 
 
 void NetworkTable::AddConnectionListener(IRemoteConnectionListener* listener, bool immediateNotify) {
+	Synchronized sync(LOCK);
 	map<IRemoteConnectionListener*, NetworkTableConnectionListenerAdapter*>::iterator itr = connectionListenerMap.find(listener);
 	if(itr != connectionListenerMap.end()){
 		throw IllegalStateException("Cannot add the same listener twice");
@@ -111,6 +115,7 @@ void NetworkTable::AddConnectionListener(IRemoteConnectionListener* listener, bo
 }
 
 void NetworkTable::RemoveConnectionListener(IRemoteConnectionListener* listener) {
+	Synchronized sync(LOCK);
 	map<IRemoteConnectionListener*, NetworkTableConnectionListenerAdapter*>::iterator itr = connectionListenerMap.find(listener);
 	if(itr != connectionListenerMap.end()){
 		node.RemoveConnectionListener(itr->second);
@@ -125,6 +130,7 @@ void NetworkTable::AddTableListener(ITableListener* listener) {
 }
 
 void NetworkTable::AddTableListener(ITableListener* listener, bool immediateNotify) {
+	Synchronized sync(LOCK);
 	std::string tmp(path);
 	tmp+=PATH_SEPARATOR;
 	NetworkTableListenerAdapter* adapter = new NetworkTableListenerAdapter(tmp, this, listener);
@@ -132,17 +138,20 @@ void NetworkTable::AddTableListener(ITableListener* listener, bool immediateNoti
 	node.AddTableListener(adapter, immediateNotify);
 }
 void NetworkTable::AddTableListener(std::string key, ITableListener* listener, bool immediateNotify) {
+	Synchronized sync(LOCK);
 	NetworkTableKeyListenerAdapter* adapter = new NetworkTableKeyListenerAdapter(key, absoluteKeyCache.Get(key), this, listener);
 	listenerMap.insert ( pair<ITableListener*,ITableListener*>(listener, adapter) );
 	node.AddTableListener(adapter, immediateNotify);
 }
 void NetworkTable::AddSubTableListener(ITableListener* listener) {
+	Synchronized sync(LOCK);
 	NetworkTableSubListenerAdapter* adapter = new NetworkTableSubListenerAdapter(path, this, listener);
 	listenerMap.insert ( pair<ITableListener*,ITableListener*>(listener, adapter) );
 	node.AddTableListener(adapter, true);
 }
 
 void NetworkTable::RemoveTableListener(ITableListener* listener) {
+	Synchronized sync(LOCK);
 	multimap<ITableListener*,ITableListener*>::iterator itr;
 	pair<multimap<ITableListener*,ITableListener*>::iterator,multimap<ITableListener*,ITableListener*>::iterator> itrs = listenerMap.equal_range(listener);
 	for (itr=itrs.first; itr!=itrs.second; ++itr){
@@ -300,6 +309,7 @@ EntryCache::EntryCache(std::string& _path):path(_path){}
 EntryCache::~EntryCache(){}
 
 NetworkTableEntry* EntryCache::Get(std::string& key){
+	Synchronized sync(LOCK);
 	return cache[key];
 }
 

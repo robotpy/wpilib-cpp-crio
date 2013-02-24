@@ -41,6 +41,7 @@ class EntryCache {
 private:
 	map<std::string, NetworkTableEntry*> cache;
 	std::string& path;
+        ReentrantSemaphore LOCK;
 public:
 	EntryCache(std::string& path);
 	~EntryCache();
