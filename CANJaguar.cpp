@@ -31,6 +31,7 @@ const double CANJaguar::kApproxBusVoltage;
  */
 void CANJaguar::InitCANJaguar()
 {
+	m_table = NULL;
 	m_transactionSemaphore = semMCreate(SEM_Q_PRIORITY | SEM_INVERSION_SAFE | SEM_DELETE_SAFE);
 	if (m_deviceNumber < 1 || m_deviceNumber > 63)
 	{

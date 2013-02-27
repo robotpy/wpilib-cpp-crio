@@ -19,6 +19,7 @@ extern Resource *interruptsResource;
  */
 void DigitalOutput::InitDigitalOutput(UINT8 moduleNumber, UINT32 channel)
 {
+	m_table = NULL;
 	char buf[64];
 	if (!CheckDigitalModule(moduleNumber))
 	{

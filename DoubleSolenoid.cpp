@@ -15,6 +15,7 @@
  */
 void DoubleSolenoid::InitSolenoid()
 {
+	m_table = NULL;
 	char buf[64];
 	if (!CheckSolenoidModule(m_moduleNumber))
 	{

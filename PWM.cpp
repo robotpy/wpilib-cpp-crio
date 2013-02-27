@@ -26,6 +26,7 @@ static Resource *allocated = NULL;
  */
 void PWM::InitPWM(UINT8 moduleNumber, UINT32 channel)
 {
+	m_table = NULL;
 	char buf[64];
 	Resource::CreateResourceObject(&allocated, tDIO::kNumSystems * kPwmChannels);
 	if (!CheckPWMModule(moduleNumber))

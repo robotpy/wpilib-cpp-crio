@@ -25,6 +25,7 @@ static Resource *relayChannels = NULL;
  */
 void Relay::InitRelay (UINT8 moduleNumber)
 {
+	m_table = NULL;
 	char buf[64];
 	Resource::CreateResourceObject(&relayChannels, tDIO::kNumSystems * kRelayChannels * 2);
 	if (!SensorBase::CheckRelayModule(moduleNumber))
