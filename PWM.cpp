@@ -345,12 +345,16 @@ void PWM::UpdateTable() {
 }
 
 void PWM::StartLiveWindowMode() {
-	m_table->AddTableListener("Value", this, true);
+	if (m_table != NULL) {
+		m_table->AddTableListener("Value", this, true);
+	}
 }
 
 void PWM::StopLiveWindowMode() {
 	SetSpeed(0);
-	m_table->RemoveTableListener(this);
+	if (m_table != NULL) {
+		m_table->RemoveTableListener(this);
+	}
 }
 
 std::string PWM::GetSmartDashboardType() {

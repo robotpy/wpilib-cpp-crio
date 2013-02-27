@@ -288,11 +288,15 @@ void DigitalOutput::UpdateTable() {
 }
 
 void DigitalOutput::StartLiveWindowMode() {
-	m_table->AddTableListener("Value", this, true);
+	if (m_table != NULL) {
+		m_table->AddTableListener("Value", this, true);
+	}
 }
 
 void DigitalOutput::StopLiveWindowMode() {
-	m_table->RemoveTableListener(this);
+	if (m_table != NULL) {
+		m_table->RemoveTableListener(this);
+	}
 }
 
 std::string DigitalOutput::GetSmartDashboardType() {

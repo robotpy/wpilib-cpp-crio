@@ -244,11 +244,15 @@ void Relay::UpdateTable() {
 }
 
 void Relay::StartLiveWindowMode() {
-	m_table->AddTableListener("Value", this, true);
+	if(m_table != NULL){
+		m_table->AddTableListener("Value", this, true);
+	}
 }
 
 void Relay::StopLiveWindowMode() {
-	m_table->RemoveTableListener(this);
+	if(m_table != NULL){
+		m_table->RemoveTableListener(this);
+	}
 }
 
 std::string Relay::GetSmartDashboardType() {

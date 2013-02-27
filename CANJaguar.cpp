@@ -1248,11 +1248,15 @@ void CANJaguar::UpdateTable() {
 }
 
 void CANJaguar::StartLiveWindowMode() {
-	m_table->AddTableListener("Value", this, true);
+	if (m_table != NULL) {
+		m_table->AddTableListener("Value", this, true);
+	}
 }
 
 void CANJaguar::StopLiveWindowMode() {
-	m_table->RemoveTableListener(this);
+	if (m_table != NULL) {
+		m_table->RemoveTableListener(this);
+	}
 }
 
 std::string CANJaguar::GetSmartDashboardType() {
