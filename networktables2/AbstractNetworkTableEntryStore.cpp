@@ -203,7 +203,8 @@
 			for(itr = namedEntries.begin(); itr != namedEntries.end(); itr++)
 			{
 				NetworkTableEntry* entry = itr->second;
-				listener->ValueChanged(table, itr->first, entry->GetValue(), true);
+				if (entry)
+					listener->ValueChanged(table, itr->first, entry->GetValue(), true);
 			}
 		}
 	}
