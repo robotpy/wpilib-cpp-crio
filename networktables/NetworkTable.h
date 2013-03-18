@@ -53,7 +53,7 @@ public:
 
 class NetworkTable : public ITable, public IRemote {
 	
-private:
+public: // for better python support
 	static DefaultThreadManager threadManager;
 	static NetworkTableProvider* staticProvider;
 	static NetworkTableMode* mode;

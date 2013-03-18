@@ -68,6 +68,20 @@ public:
 	
 	EntryValue GetValue(std::string& name);
 	
+    // RobotPy specific
+    bool GetValueAndType(std::string& name, EntryValue &value, TypeId &id)
+	{ 
+		Synchronized sync(entryStore.LOCK);
+		NetworkTableEntry* entry = entryStore.GetEntry(name);
+		if(entry==NULL)
+            return false;
+        
+		value = entry->GetValue();
+        id = entry->GetType()->id;
+        return true;
+	}
+    // End RobotPy specific
+    
 	
 	/**
 	 * @param key the key to check for existence
