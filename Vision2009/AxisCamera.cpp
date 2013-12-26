@@ -35,6 +35,9 @@
 #include "Timer.h"
 #include "VisionAPI.h"
 
+#include <cstdio>
+#include <cstring>
+
 /** packet size */
 #define DEFAULT_PACKET_SIZE 512
 
@@ -429,7 +432,7 @@ static int CameraOpenSocketAndIssueAuthorizedRequest(const char* serverName, con
         }
 
         sockAddrSize = sizeof (struct sockaddr_in);
-        bzero ((char *) &cameraAddr, sockAddrSize);
+        memset ((char *) &cameraAddr, 0, sockAddrSize);
         cameraAddr.sin_family = AF_INET;
         cameraAddr.sin_len = (u_char) sockAddrSize;
         cameraAddr.sin_port = htons (CAMERA_PORT);
@@ -676,7 +679,7 @@ Authorization: Basic %s;\n\n";
 	  }
 
 	  sockAddrSize = sizeof (struct sockaddr_in);
-	  bzero ((char *) &cameraAddr, sockAddrSize);
+	  memset ((char *) &cameraAddr, 0, sockAddrSize);
 	  cameraAddr.sin_family = AF_INET;
 	  cameraAddr.sin_len = (u_char) sockAddrSize;
 	  cameraAddr.sin_port = htons (CAMERA_PORT);
@@ -925,7 +928,7 @@ static int initCamera(int frames, int compression, ImageResolution resolution, I
 	/* Initialize globalCamera area 
 	 * Set decode to 1 - always want to decode images for processing 
 	 * If ONLY sending images to the dashboard, you could set it to 0 */
-	bzero ((char *)&globalCamera, sizeof(globalCamera));
+	memset ((char *)&globalCamera, 0, sizeof(globalCamera));
 	globalCamera.index = -1;
 	globalCamera.decode = 1;
 	

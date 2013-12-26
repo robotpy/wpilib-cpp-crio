@@ -14,6 +14,7 @@
 #include <moduleLib.h>
 #include <taskLib.h>
 #include <unldLib.h>
+#include <cstring>
 
 RobotBase* RobotBase::m_instance = NULL;
 

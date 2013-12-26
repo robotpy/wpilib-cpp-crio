@@ -14,7 +14,7 @@
 #include <memory>
 
 //WindRiver is 3.4 GCC. Recent GCC can  do 0b01010101 style format, WR cannot
-
+/*
 #define TO_HEX__(n) 0x##n##LU // LU for unsigned long
 #define BINARY_LITERAL_VIA_HEX__(n) (((n & 0x00000001LU) ? 1 : 0)\
 	+ ((n & 0x00000010LU) ? 2 : 0) \
@@ -26,6 +26,7 @@
 	+ ((n & 0x10000000LU) ? 128 : 0))
 	
 #define b(n) ((unsigned char)BINARY_LITERAL_VIA_HEX__(TO_HEX__(n)))
+*/
 
 class DataIOStream{
 public:

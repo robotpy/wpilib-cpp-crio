@@ -25,6 +25,7 @@ static Resource *quadEncoders = NULL;
  */
 void Encoder::InitEncoder(bool reverseDirection, EncodingType encodingType)
 {
+	UINT32 index;
 	m_table = NULL;
 	m_encodingType = encodingType;
 	tRioStatusCode localStatus = NiFpga_Status_Success;
@@ -32,7 +33,7 @@ void Encoder::InitEncoder(bool reverseDirection, EncodingType encodingType)
 	{
 	case k4X:
 		Resource::CreateResourceObject(&quadEncoders, tEncoder::kNumSystems);
-		UINT32 index = quadEncoders->Allocate("4X Encoder");
+		index = quadEncoders->Allocate("4X Encoder");
 		if (index == ~0ul)
 		{
 			CloneError(quadEncoders);

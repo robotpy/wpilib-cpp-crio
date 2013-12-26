@@ -10,6 +10,7 @@
 #define WPI_ERRORS_DEFINE_STRINGS
 #include "WPIErrors.h"
 
+#include <cstdio>
 #include <errnoLib.h>
 #include <symLib.h>
 #include <sysSymTbl.h>
