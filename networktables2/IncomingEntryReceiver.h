@@ -8,7 +8,7 @@
 #ifndef INCOMINGENTRYRECEIVER_H_
 #define INCOMINGENTRYRECEIVER_H_
 
-#include "NetworkTableEntry.h"
+#include "networktables2/NetworkTableEntry.h"
 #include "tables/ITable.h"
 
 class IncomingEntryReceiver

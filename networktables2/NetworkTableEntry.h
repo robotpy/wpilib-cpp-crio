@@ -13,10 +13,10 @@ class NetworkTableEntry;
 class TableListenerManager;
 
 
-#include "connection/DataIOStream.h"
-#include "connection/NetworkTableConnection.h"
-#include "type/NetworkTableEntryType.h"
-#include "util/IllegalStateException.h"
+#include "networktables2/connection/DataIOStream.h"
+#include "networktables2/connection/NetworkTableConnection.h"
+#include "networktables2/type/NetworkTableEntryType.h"
+#include "networktables2/util/IllegalStateException.h"
 #include <string>
 #include "tables/ITable.h"
 
