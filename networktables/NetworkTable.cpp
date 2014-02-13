@@ -347,7 +347,7 @@ EntryCache::EntryCache(std::string& _path):path(_path){}
 EntryCache::~EntryCache(){}
 
 NetworkTableEntry* EntryCache::Get(std::string& key){
-	Synchronized sync(LOCK);
+	NTSynchronized sync(LOCK);
 	return cache[key];
 }
 
