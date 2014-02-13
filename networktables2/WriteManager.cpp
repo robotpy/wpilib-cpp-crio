@@ -106,7 +106,7 @@ void WriteManager::run() {
 				entryCopy = new NetworkTableEntry(*entry);
 			}
 
-			receiver.offerOutgoingAssignment(entry);
+			receiver.offerOutgoingAssignment(entryCopy);
 			delete entryCopy;
 		}
 	}
@@ -124,7 +124,7 @@ void WriteManager::run() {
 				entryCopy = new NetworkTableEntry(*entry);
 			}
 
-			receiver.offerOutgoingUpdate(entry);
+			receiver.offerOutgoingUpdate(entryCopy);
 			delete entryCopy;
 		}
 	}
