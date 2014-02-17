@@ -19,6 +19,7 @@ class PIDOutput
 {
 public:
 	virtual void PIDWrite(float output) = 0;
+	virtual ~PIDOutput(){}
 };
 
 #endif

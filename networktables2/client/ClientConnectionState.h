@@ -48,6 +48,8 @@ protected:
 	ClientConnectionState(const char* name);
 public:
 	virtual const char* toString();
+
+	virtual ~ClientConnectionState(){}
 };
 
 

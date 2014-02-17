@@ -49,6 +49,8 @@ public:
 	 * @return if the object is a server
 	 */
 	virtual bool IsServer() = 0;
+
+	virtual ~IRemote(){}
 };
 
 

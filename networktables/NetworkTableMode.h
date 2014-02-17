@@ -32,6 +32,8 @@ public:
 	
 	static NetworkTableServerMode Server;
 	static NetworkTableClientMode Client;
+
+	virtual ~NetworkTableMode(){}
 };
 
 class NetworkTableServerMode : public NetworkTableMode{
