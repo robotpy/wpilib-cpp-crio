@@ -19,7 +19,7 @@ void ServerConnectionAdapter::gotoState(ServerConnectionState* newState){
 
 ServerConnectionAdapter::ServerConnectionAdapter(IOStream* stream, ServerNetworkTableEntryStore& _entryStore, IncomingEntryReceiver& _transactionReceiver, ServerAdapterManager& _adapterListener, NetworkTableEntryTypeManager& typeManager, NTThreadManager& threadManager) :
 	entryStore(_entryStore), transactionReceiver(_transactionReceiver), adapterListener(_adapterListener),
-	connection(stream, typeManager), monitorThread(*this, connection), m_IsAdapterListenerClosed(false) {
+	connection(stream, typeManager), readThread(NULL), monitorThread(*this, connection), m_IsAdapterListenerClosed(false) {
         connectionState = &ServerConnectionState::CLIENT_DISCONNECTED;
 	gotoState(&ServerConnectionState::GOT_CONNECTION_FROM_CLIENT);
 	readThread = threadManager.newBlockingPeriodicThread(&monitorThread, "Server Connection Reader Thread");
@@ -35,7 +35,9 @@ void ServerConnectionAdapter::badMessage(BadMessageException& e) {
   fflush(stdout);
 	gotoState(new ServerConnectionState_Error(e));
 	adapterListener.close(*this, true);
-	readThread->stop();
+	if (readThread) {
+		readThread->stop();
+	}
 	m_IsAdapterListenerClosed=true;
 }
 
@@ -47,7 +49,9 @@ void ServerConnectionAdapter::ioException(IOException& e) {
 	else
 		gotoState(new ServerConnectionState_Error(e));
 	adapterListener.close(*this, false);
-	readThread->stop();
+	if (readThread) {
+		readThread->stop();
+	}
 	m_IsAdapterListenerClosed=true;
 }
 
