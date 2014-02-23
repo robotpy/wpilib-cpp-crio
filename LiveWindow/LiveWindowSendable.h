@@ -34,6 +34,8 @@ public:
      * changes.
      */
     virtual void StopLiveWindowMode() = 0;
+
+    virtual ~LiveWindowSendable(){}
 };
 
 

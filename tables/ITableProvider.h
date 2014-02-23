@@ -28,6 +28,7 @@ public:
 	 * @return a Table with the given name
 	 */
 	virtual ITable* GetTable(std::string name) = 0;
+	virtual ~ITableProvider(){}
 };
 
 #endif /* ITABLEPROVIDER_H_ */

@@ -33,6 +33,8 @@ public:
 	 * @param remote the object that disconnected
 	 */
 	virtual void Disconnected(IRemote* remote) = 0;
+
+	virtual ~IRemoteConnectionListener(){}
 };
 
 

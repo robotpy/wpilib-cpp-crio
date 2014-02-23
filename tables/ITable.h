@@ -190,7 +190,7 @@ public:
 	 */
 	virtual void RemoveTableListener(ITableListener* listener) = 0;
         
-
+	virtual ~ITable(){}
 };
 
 

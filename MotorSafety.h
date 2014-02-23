@@ -17,6 +17,7 @@ public:
 	virtual void SetSafetyEnabled(bool enabled) = 0;
 	virtual bool IsSafetyEnabled() = 0;
 	virtual void GetDescription(char *desc) = 0;
+	virtual ~MotorSafety(){}
 };
 
 #endif
