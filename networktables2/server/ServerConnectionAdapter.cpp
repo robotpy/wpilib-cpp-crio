@@ -35,6 +35,7 @@ void ServerConnectionAdapter::badMessage(BadMessageException& e) {
   fflush(stdout);
 	gotoState(new ServerConnectionState_Error(e));
 	adapterListener.close(*this, true);
+	readThread->stop();
 	m_IsAdapterListenerClosed=true;
 }
 
@@ -46,6 +47,7 @@ void ServerConnectionAdapter::ioException(IOException& e) {
 	else
 		gotoState(new ServerConnectionState_Error(e));
 	adapterListener.close(*this, false);
+	readThread->stop();
 	m_IsAdapterListenerClosed=true;
 }
 
