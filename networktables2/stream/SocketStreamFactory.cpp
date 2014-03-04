@@ -48,6 +48,7 @@ IOStream* SocketStreamFactory::createStream(){
     server = gethostbyname(host);
     if (server == NULL) {
         //fprintf(stderr,"ERROR, no such host\n");
+    	close(sockfd);
         return NULL;
     }
 	memset(&serv_addr, 0, sizeof(serv_addr));
@@ -56,8 +57,9 @@ IOStream* SocketStreamFactory::createStream(){
     serv_addr.sin_port = htons(port);
     if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) {
         //error("ERROR connecting");
+    	close(sockfd);
     	return NULL;
-    }//TODO close fd if an error occured
+    }
 
 	//int on = 1;
 	//setsockopt(sockfd, IPPROTO_TCP, TCP_NODELAY, (char *)&on, sizeof(on));
