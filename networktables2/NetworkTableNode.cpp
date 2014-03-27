@@ -89,14 +89,14 @@ void NetworkTableNode::PutValue(std::string& name, NetworkTableEntryType* type, 
 			ComplexData* complexData = (ComplexData*)value.ptr;
 			ComplexEntryType* entryType = (ComplexEntryType*)type;
 			NetworkTableEntry* entry = entryStore.GetEntry(name);
-			if(entry!=NULL)
-				entryStore.PutOutgoing(entry, entryType->internalizeValue(entry->name, *complexData, entry->GetValue()));
-			else{
+			//if(entry!=NULL)
+			//	entryStore.PutOutgoing(entry, entryType->internalizeValue(entry->name, *complexData, entry->GetValue()));
+			//else{
 				EntryValue nullValue = {0};
 				EntryValue entryValue = entryType->internalizeValue(name, *complexData, nullValue);
 				entryStore.PutOutgoing(name, type, entryValue);//TODO the entry gets copied when creating the entry should make lifecycle cleaner
 				type->deleteValue(entryValue);
-			}
+			//}
 		}
 	}
 	else
@@ -107,9 +107,13 @@ void NetworkTableNode::PutValue(NetworkTableEntry* entry, EntryValue value){
 	if(entry->GetType()->isComplex()){
 		{ 
 			NTSynchronized sync(entryStore.LOCK);
+			ComplexData* complexData = (ComplexData*)value.ptr;
 			ComplexEntryType* entryType = (ComplexEntryType*)entry->GetType();
 			
-			entryStore.PutOutgoing(entry, entryType->internalizeValue(entry->name, *(ComplexData*)value.ptr, entry->GetValue()));
+			EntryValue nullValue = {0};
+			EntryValue entryValue = entryType->internalizeValue(entry->name, *complexData, nullValue);
+			entryStore.PutOutgoing(entry, entryValue);//TODO the entry gets copied when creating the entry should make lifecycle cleaner
+			entryType->deleteValue(entryValue);
 		}
 	}
 	else
